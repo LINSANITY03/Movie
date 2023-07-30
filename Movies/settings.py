@@ -88,7 +88,7 @@ DATABASES = {
 }
 
 # MONGODB CONFIGURATION
-MONGODB_HOST = 'Movies'
+MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
 
 # Password validation
