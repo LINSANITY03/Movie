@@ -88,10 +88,6 @@ DATABASES = {
     }
 }
 
-# MONGODB CONFIGURATION
-MONGODB_HOST = 'localhost'
-MONGODB_PORT = 27017
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
