@@ -6,4 +6,4 @@ class MovieSchema(ModelSchema):
 
     class Config:
         model = Movie
-        model_fields = ['id', 'name', 'protagonists', 'poster', 'start_date', 'status', 'ranking']
+        model_fields = ['name', 'protagonists', 'start_date', 'status', 'ranking']

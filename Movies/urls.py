@@ -19,10 +19,15 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 # import api config
-from .api import api
+from ninja import NinjaAPI
+from api.api import router as api_router
+
+api = NinjaAPI()
+api.add_router("api/", api_router)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', api.urls), # creating a url for Ninja API
+    path('', api.urls),  # creating a url for Ninja API
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
