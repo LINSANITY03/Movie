@@ -11,9 +11,9 @@ class MovieSchema(ModelSchema):
                         'start_date', 'status', 'ranking']
 
 
-class MovieEditSchema(ModelSchema):
+class RetrieveMovieSchema(ModelSchema):
 
     class Config:
         model = Movie
-        model_fields = ['name', 'protagonists',
+        model_fields = ['id', 'name', 'protagonists',
                         'start_date', 'status', 'ranking']
