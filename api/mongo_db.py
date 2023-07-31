@@ -32,3 +32,7 @@ def db_edit_movie(instance):
     }
     collection.update_one({'_id': instance.id}, {"$set": movie_data})
     client.close()
+
+
+def db_retrieve_all_movie():
+    return [each for each in collection.find()]

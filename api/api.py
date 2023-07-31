@@ -5,7 +5,7 @@ from django.db import transaction
 from typing import List
 from .schema import MovieSchema, RetrieveMovieSchema
 from .models import Movie
-from .mongo_db import db_add_movie, db_edit_movie
+from .mongo_db import db_add_movie, db_edit_movie, db_retrieve_all_movie
 
 
 router = Router()
@@ -50,8 +50,13 @@ def edit_movie(request, movie_id, payload: MovieSchema = Form(...), poster: Uplo
         return 500, {"message": "Server error"}
 
 
-@router.get('/movie/{movie_id}', response=RetrieveMovieSchema)
+@router.get('/movie/{int:movie_id}', response=RetrieveMovieSchema)
 def get_movie(request, movie_id):
 
     movie_record = get_object_or_404(Movie, pk=movie_id)
     return movie_record
+
+
+@router.get('/movie/all')
+def get_all_movie(request):
+    return db_retrieve_all_movie()

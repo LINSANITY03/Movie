@@ -1,4 +1,4 @@
-from ninja import ModelSchema, File
+from ninja import ModelSchema, File, Schema
 from ninja.files import UploadedFile
 from .models import *
 
