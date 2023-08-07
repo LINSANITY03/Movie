@@ -6,6 +6,7 @@ from typing import List
 from .schema import MovieSchema, RetrieveMovieSchema
 from .models import Movie
 from .mongo_db import db_add_movie, db_edit_movie, db_retrieve_all_movie
+from .tasks import increment_ranks
 
 
 router = Router()
@@ -60,3 +61,8 @@ def get_movie(request, movie_id):
 @router.get('/movie/all')
 def get_all_movie(request):
     return db_retrieve_all_movie()
+
+
+@router.post('/redis-check')
+def checking(request):
+    increment_ranks.delay(2, 3)

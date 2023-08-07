@@ -1,0 +1,90 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:alpine3.17
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgresql1234
+      - POSTGRES_DB=Movies
+      - POSTGRES_HOST=postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  celery:
+    image: celery:latest
+    build: .
+    command: celery -A Movies worker -l INFO
+    restart: always
+    depends_on:
+      - redis
+      - postgres
+      - django
+    environment:
+      DJANGO_ALLOWED_HOSTS: localhost, 127.0.0.1
+      DEBUG: "true"
+      CELERY_BROKER: "redis://redis:6379/0"
+      CELERY_BACKEND: "redis://redis:6379/0"
+
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_DB_HOST: mongo
+      MONGO_INITDB_DATABASE: Movies
+      MONGO_DB_USERNAME: root
+      MONGO_DB_PASSWORD: mongo1234
+      MONGO_DB_URI: mongodb://root:root@mongo:27017
+    ports:
+      - 27017:27017
+    volumes:
+      - db-mongo:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ""
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ""
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/
+    depends_on:
+      - mongo
+
+  django:
+    image: django-app
+    build: ./
+    ports:
+      - 8000:8000
+    environment:
+      DJANGO_ALLOWED_HOSTS: localhost, 127.0.0.1
+      DEBUG: "true"
+      CELERY_BROKER: "redis://redis:6379/0"
+      CELERY_BACKEND: "redis://redis:6379/0"
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - postgres
+      - redis
+      - mongo
+
+volumes:
+  db-data:
+    driver: local
+  db-mongo:
+    driver: local

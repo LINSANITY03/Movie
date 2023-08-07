@@ -7,7 +7,7 @@ import os
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Movies.settings')
 
-app = Celery('Movies')
+app = Celery('Movies', broker="redis://localhost:6379")
 app.config_from_object(settings, namespace='CELERY')
 
 app.autodiscover_tasks()
