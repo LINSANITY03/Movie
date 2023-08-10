@@ -6,3 +6,9 @@ Primary Stack used:
 - Postgresql/MongoDB
 - Celery/Redis
 - Docker
+
+To run the program:
+
+```
+    Python manage.py runserver
+```
