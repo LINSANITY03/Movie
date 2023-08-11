@@ -39,11 +39,11 @@ services:
     image: mongo
     restart: always
     environment:
-      MONGO_DB_HOST: mongo
+      MONGO_DB_HOST: localhost
       MONGO_INITDB_DATABASE: Movies
       MONGO_DB_USERNAME: root
       MONGO_DB_PASSWORD: mongo1234
-      MONGO_DB_URI: mongodb://root:root@mongo:27017
+      MONGO_DB_URI: mongodb://root:mongo1234@localhost:27017
     ports:
       - 27017:27017
     volumes:
@@ -60,7 +60,7 @@ services:
       ME_CONFIG_MONGODB_ENABLE_ADMIN: true
       ME_CONFIG_MONGODB_PORT: 27017
       ME_CONFIG_MONGODB_SERVER: mongo
-      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:mongo1234@localhost:27017
     depends_on:
       - mongo
 

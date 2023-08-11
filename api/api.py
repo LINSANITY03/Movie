@@ -2,8 +2,7 @@ from ninja import Router, UploadedFile, File, Form
 
 from django.shortcuts import get_object_or_404
 from django.db import transaction
-from typing import List
-from .schema import MovieSchema, RetrieveMovieSchema
+from .schema import MovieSchema, RetrieveMovieSchema, RespMessage
 from .models import Movie
 from .mongo_db import db_add_movie, db_edit_movie, db_retrieve_all_movie
 from .tasks import increment_ranks
@@ -12,7 +11,7 @@ from .tasks import increment_ranks
 router = Router()
 
 
-@router.post('/add_movie')
+@router.post('/add_movie', response={200: RespMessage, 500: RespMessage})
 def add_movie(request, payload: MovieSchema = Form(...), poster: UploadedFile = File(...)):
 
     try:
@@ -24,7 +23,7 @@ def add_movie(request, payload: MovieSchema = Form(...), poster: UploadedFile = 
 
         return 200, {"message": "Data has successfully been added"}
     except:
-        return 400, {"message": "Data entry failed"}
+        return 500, {"message": "Data entry failed"}
 
 
 @router.post('/edit_movie/{movie_id}')

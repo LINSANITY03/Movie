@@ -2,7 +2,7 @@
 from pymongo import MongoClient
 
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://mongo')
 db = client['Movies']
 collection = db['Movie']
 
@@ -18,7 +18,6 @@ def db_add_movie(instance):
         'ranking': instance.ranking
     }
     collection.insert_one(movie_data)
-    client.close()
 
 
 def db_edit_movie(instance):
@@ -31,7 +30,6 @@ def db_edit_movie(instance):
         'ranking': instance.ranking
     }
     collection.update_one({'_id': instance.id}, {"$set": movie_data})
-    client.close()
 
 
 def db_retrieve_all_movie():

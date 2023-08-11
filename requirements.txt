@@ -26,3 +26,4 @@ vine==5.0.0
 wcwidth==0.2.6
 psycopg2-binary
 redis==4.6.0
+pytest_django==4.5.2

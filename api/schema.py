@@ -3,6 +3,10 @@ from ninja.files import UploadedFile
 from .models import *
 
 
+class RespMessage(Schema):
+    message: str
+
+
 class MovieSchema(ModelSchema):
 
     class Config:
