@@ -1,6 +1,12 @@
 # Instuct on what image we want to base our container 
 FROM python:3.10.9-alpine3.16
 
+# set environment variables
+ENV PIP_NO_CACHE_DIR off
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+
 # Allows docker to cache installed dependencies between builds
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt

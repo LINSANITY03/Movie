@@ -81,12 +81,16 @@ WSGI_APPLICATION = 'Movies.wsgi.application'
 DATABASES = {
     # POSTGRESQL CONFIGURATION
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'Movies',
         'USER': 'postgres',
         'PASSWORD': 'postgresql1234',
         'HOST': 'postgres',
         'PORT': '5432',
+        'TEST': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'TestDB',
+        }
     }
 }
 
@@ -135,16 +139,13 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://127.0.0.1:6379/")
-CELERY_RESULT_BACKEND = os.environ.get(
-    "CELERY_BACKEND", "redis://127.0.0.1:6379/")
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/"
+CELERY_RESULT_BACKEND = 'db+postgresql://postgres:postgresql1234@postgres:5432/Movies'
 
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 
-
-CELERY_RESULT_BACKEND_DB = 'db+postgresql:///django-db'
 
 # CELERY_BEAT_SCHEDULE = {
 #     'movie-rank': {

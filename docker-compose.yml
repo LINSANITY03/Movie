@@ -9,7 +9,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgresql1234
-      - POSTGRES_DB=Movies
+      - POSTGRES_MULTIPLE_DATABASES=Movies, TestDB
       - POSTGRES_HOST=postgres
     volumes:
       - db-data:/var/lib/postgresql/data
@@ -21,8 +21,6 @@ services:
     restart: always
     depends_on:
       - redis
-      - postgres
-      - django
     environment:
       DJANGO_ALLOWED_HOSTS: localhost, 127.0.0.1
       DEBUG: "true"
@@ -81,10 +79,13 @@ services:
     depends_on:
       - postgres
       - redis
+      - celery
       - mongo
 
 volumes:
   db-data:
     driver: local
   db-mongo:
+    driver: local
+  db-testdata:
     driver: local
