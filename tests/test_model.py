@@ -15,9 +15,9 @@ image_mock.name = "movie_poster.png"
 @pytest.fixture()
 def django_db_setup():
     connection = psycopg2.connect(
-        database="TestDB",
+        database="Movies",
         user="postgres", password="postgresql1234",
-        host="postgres", port=5432)
+        host="127.0.0.1", port=5432)
     return connection.cursor()
 
 

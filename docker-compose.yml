@@ -9,9 +9,10 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgresql1234
-      - POSTGRES_MULTIPLE_DATABASES=Movies, TestDB
+      - POSTGRES_DB=Movies
       - POSTGRES_HOST=postgres
     volumes:
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
       - db-data:/var/lib/postgresql/data
 
   celery:
